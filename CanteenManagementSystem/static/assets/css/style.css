@@ -1768,3 +1768,11 @@ section {
   font-size: 13px;
   color: #fff;
 }
+
+/* manually addded */
+#linebreak {
+  display: block;
+  margin: 1em 0;
+  content: "";
+  border-top: 1px solid #ccc;
+}
