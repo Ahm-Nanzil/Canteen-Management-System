@@ -48,6 +48,13 @@
         <i class="bi bi-clock d-flex align-items-center ms-4"><span> Thr-Sat: 8AM - 8PM</span></i>
       </div>
 
+      {% for message in messages %}
+  <div class="alert alert-{{message.tags}} alert-dismissible fade show" role="alert">
+    <strong>Message: </strong> {{message}}
+    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+  </div>
+{% endfor %}
+
       <div class="languages d-none d-md-flex align-items-center">
         <ul>
           <li>En</li>
@@ -60,6 +67,8 @@
   <!-- ======= Header ======= -->
   <header id="header" class="fixed-top d-flex align-items-cente">
     <div class="container-fluid container-xl d-flex align-items-center justify-content-lg-between">
+      
+      
 
       <h1 class="logo me-auto me-lg-0"><a href="index.html">Canteen</a></h1>
       <!-- Uncomment below if you prefer to use an image logo -->
@@ -74,9 +83,7 @@
           
           <li><a class="nav-link scrollto" href="#gallery">Gallery</a></li>
           <li class="dropdown"><a href="#"><span>Canteen</span> <i class="bi bi-chevron-down"></i></a>
-            <ul>
-              
-             
+            <ul>       
               <li><a href="#">khan kitchen</a></li>
               <li><a href="#">Bikrompur</a></li>
               <li><a href="#">......</a></li>
@@ -88,15 +95,153 @@
       </nav><!-- .navbar -->
       <a href="login" class="book-a-table-btn scrollto d-none d-lg-flex">Order Now</a>
 
-    </div>
-  </header><!-- End Header -->
+      {% if request.user.is_authenticated %}
+    Welcome, {{ request.user.username }}!
+{% else %}
+    Please log in.
+{% endif %}
 
+
+      {% if user.is_authenticated %}
+      
+      <div class="dropdown backgroundTrans ">
+        <button class="book-a-table-btn scrollto d-none d-lg-flex backgroundTrans" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+          {{request.user}}
+        </button>
+        <ul class="dropdown-menu profileUser">
+          <li><a class="dropdown-item" href="#">Profile</a></li>
+          <li><a class="dropdown-item" href="/logout">Logout</a></li>
+        </ul>
+      </div>
+                     
+            {% else %}
+      <!-- Button trigger Sign In modal -->
+<button type="button" class="book-a-table-btn scrollto d-none d-lg-flex backgroundTrans" data-bs-toggle="modal" data-bs-target="#LoginModal">
+  Sign In
+</button>
+
+{% endif %}
+
+ 
+      
+
+    </div>
+    
+  </header><!-- End Header -->
+  
+  <!-- Start Login Modal -->
+  <div class="modal fade" id="LoginModal" tabindex="-1" aria-labelledby="LoginModal" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header signupBG">
+          <button type="button" class="book-a-table-btn scrollto d-none d-lg-flex backgroundTrans" data-bs-toggle="modal" data-bs-target="#SignUpModal">
+            Sign Up
+          </button>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+  
+          {% comment %} Login form {% endcomment %}
+          <form action="/login" method="post" role="form" class="django-email-form" data-aos="fade-up" data-aos-delay="100">
+            {% csrf_token %}
+            <div class="row">
+              <div class="">
+                <input type="text" name="name" class="form-control" id="name" placeholder="Your Name" data-rule="minlen:4" data-msg="Please enter at least 4 chars">
+                <div class=""></div>
+              </div>
+              <div class="">
+                <input type="text" class="" name="password" id="password" placeholder="Your password" data-rule="minlen:4" data-msg="Please enter at least 4 chars">
+                <div class=""></div>
+              </div>
+            </div>
+
+            
+           
+            <div class="mb-3">
+              <div class="loading">Loading</div>
+              <div class="error-message"></div>
+              <div class="sent-message">Your booking request was sent. We will call back or send an Email to confirm your reservation. Thank you!</div>
+            </div>
+            
+  
+        </div>
+        <div class="modal-footer">
+          
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+          <div class=""><button type="submit" class="btn btn-primary">Login</button></div>
+          </form>
+      
+        </div>
+      </div>
+    </div>
+  </div>
+       
+  <!-- End Login Modal -->
+
+  <!-- SignUpModal -->
+<div class="modal fade" id="SignUpModal" tabindex="-1" aria-labelledby="SignUpModal" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header signupBG">
+        <button type="button" class="book-a-table-btn scrollto d-none d-lg-flex backgroundTrans" data-bs-toggle="modal" data-bs-target="#LoginModal">
+          Sign In
+        </button>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+
+        {% comment %} SignUp form {% endcomment %}
+        <form action="/signup" method="post" role="form" class="" data-aos="fade-up" data-aos-delay="100">
+          {% csrf_token %}
+          <div class="row">
+            <div class="">
+              <input type="text" name="name" class="" id="name" placeholder="Your Name" data-rule="minlen:4" data-msg="Please enter at least 4 chars">
+              <div class=""></div>
+            </div>
+            <div class="">
+              <input type="email" class="" name="mail" id="email" placeholder="Your Email" data-rule="email" data-msg="Please enter a valid email">
+              <div class=""></div>
+            </div>
+            <div class="">
+              <input type="text" class="" name="phone" id="phone" placeholder="Your Phone" data-rule="minlen:4" data-msg="Please enter at least 4 chars">
+              
+              <div class=""></div>
+            </div>
+            <div class="">
+              <input type="password" class="" name="password" id="password" placeholder="Write your password" data-rule="minlen:4" data-msg="Please enter at least 4 chars">
+              
+              <div class=""></div>
+            </div>
+          </div>
+         
+          <div class="mb-3">
+            <div class="loading">Loading</div>
+            <div class="error-message"></div>
+            <div class="sent-message">Your booking request was sent. We will call back or send an Email to confirm your reservation. Thank you!</div>
+          </div>
+          
+
+      </div>
+      <div class="modal-footer">
+        
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+        <div class=""><button type="submit" class="btn btn-primary">Sign Up</button></div>
+        </form>
+    
+      </div>
+    </div>
+  </div>
+</div>
+     
+<!-- End SignUpModal -->
   <!-- ======= Hero Section ======= -->
   <section id="hero" class="d-flex align-items-center">
     <div class="container position-relative text-center text-lg-start" data-aos="zoom-in" data-aos-delay="100">
       <div class="row">
         <div class="col-lg-8">
-          <h1>Welcome to <span>UIU Canteen</span></h1>
+          <h1>Welcome to <span>UIU Canteen</span>
+          </h1>
+          
           <h2>Delivering great food from the beginning!</h2>
 
           <div class="btns">
@@ -203,9 +348,7 @@
         </div>
       </div>
 
-      <div data-aos="fade-up">
-        <iframe style="border:0; width: 100%; height: 350px;" src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3650.582335868313!2d90.44752131498227!3d23.797882884566032!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3755c7d8042caf2d%3A0x686fa3e360361ddf!2sUnited%20International%20University!5e0!3m2!1sen!2sbd!4v1678046347643!5m2!1sen!2sbd" frameborder="0" allowfullscreen></iframe>
-      </div>
+      
 
       <div class="container" data-aos="fade-up">
 
@@ -245,14 +388,15 @@
           </div>
 
           <div class="col-lg-8 mt-5 mt-lg-0">
-
-            <form action="forms/contact.php" method="post" role="form" class="php-email-form">
+            
+            <form action="contact" method="post" role="form" class="django-email-form">
+              {% csrf_token %}
               <div class="row">
                 <div class="col-md-6 form-group">
                   <input type="text" name="name" class="form-control" id="name" placeholder="Your Name" required>
                 </div>
                 <div class="col-md-6 form-group mt-3 mt-md-0">
-                  <input type="email" class="form-control" name="email" id="email" placeholder="Your Email" required>
+                  <input type="email" class="form-control" name="mail" id="email" placeholder="Your Email" required>
                 </div>
               </div>
               <div class="form-group mt-3">
@@ -272,6 +416,9 @@
           </div>
 
         </div>
+        <div data-aos="fade-up">
+          <iframe style="border:0; width: 100%; height: 350px;" src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3650.582335868313!2d90.44752131498227!3d23.797882884566032!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3755c7d8042caf2d%3A0x686fa3e360361ddf!2sUnited%20International%20University!5e0!3m2!1sen!2sbd!4v1678046347643!5m2!1sen!2sbd" frameborder="0" allowfullscreen></iframe>
+        </div>
 
       </div>
     </section><!-- End Contact Section -->
@@ -289,7 +436,7 @@
   <script src="{% static "assets/vendor/glightbox/js/glightbox.min.js" %}"></script>
   <script src="{% static "assets/vendor/isotope-layout/isotope.pkgd.min.js" %}"></script>
   <script src="{% static "assets/vendor/swiper/swiper-bundle.min.js" %}"></script>
-  <script src="{% static "assets/vendor/php-email-form/validate.js" %}"></script>
+  {% comment %} <script src="{% static "assets/vendor/php-email-form/validate.js" %}"></script> {% endcomment %}
 
   <!-- Template Main JS File -->
   <script src="{% static "assets/js/main.js" %}"></script>
