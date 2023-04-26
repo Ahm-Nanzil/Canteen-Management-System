@@ -2,7 +2,7 @@ const form = document.getElementById('msg-verify');
 const responseMessage = document.getElementById('response-message-contact');
 
 form.addEventListener('submit', (event) => {
-  event.preventDefault();
+  event.preventDefault(); // prevent default form submission behavior
 
   const formData = new FormData(form);
 
