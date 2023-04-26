@@ -5,7 +5,7 @@ const form = document.getElementById('signup-form');
       event.preventDefault();
   
       const formData = new FormData(form);
-  
+      console.log(formData);
       fetch('/signup', {
         method: 'POST',
         body: formData

@@ -1,20 +1,22 @@
 const form = document.getElementById('msg-verify');
-const responseMessage = document.getElementById('response-message-contact');
+  const responseMessage = document.getElementById('response-message-contact');
 
-form.addEventListener('submit', (event) => {
-  event.preventDefault(); // prevent default form submission behavior
-
-  const formData = new FormData(form);
-
-  fetch('/contact', {
-    method: 'POST',
-    body: formData
-  })
-    .then(response => response.json())
-    .then(data => {
-      responseMessage.innerText = data.message;
+  form.addEventListener('submit', function(e) {
+    e.preventDefault(); // prevent the form from submitting normally
+    
+    const data = new FormData(form); // create a new FormData object with the form data
+    console.log(data);
+    fetch('/contact', { // replace '/contact' with the URL of your Django view
+      method: 'POST',
+      body: data
+    })
+    .then(response => response.json()) // parse the JSON response
+    .then(json => {
+      // update the response message element with the JSON data
+      responseMessage.textContent = JSON.stringify(json);
     })
     .catch(error => {
-      responseMessage.innerText = 'An error occurred. Please try again.';
+      // handle any errors
+      console.error(error);
     });
-});
+  });
