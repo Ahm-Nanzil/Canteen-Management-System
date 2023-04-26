@@ -3,25 +3,26 @@ from django.contrib import messages
 from canteen.models import Contact_Message
 from django.contrib.auth.models import User
 from django.contrib.auth import authenticate, login, logout
+from django.http import JsonResponse
 
 # Create your views here.
 def index(request):
     return render(request, "index.html")
 
-
 def contact(request):
-    messages.success(request, "Message sent Sucessfully")
-    name = request.POST['name']
-    mail = request.POST['mail']
-    subject = request.POST['subject']
-    message = request.POST['message']
-    contact_m=Contact_Message(name=name,mail=mail,subject=subject,message=message)
-    contact_m.save()
-    return render(request, "index.html")
-
-def hello(request):
-    messages.success(request, "Welcome to login")
-    return render(request, "hello.html")
+    if request.method == 'POST':
+        messages.success(request, "Message sent Sucessfully")
+        name = request.POST['name']
+        mail = request.POST['mail']
+        subject = request.POST['subject']
+        message = request.POST['message']
+        contact_m=Contact_Message(name=name,mail=mail,subject=subject,message=message)
+        contact_m.save()
+        response_data = {'success': True, 'message': 'Your message has been sent. Thank you!'}
+        return JsonResponse(response_data)
+    else:
+        response_data = {'error': True, 'message': 'Message sent fail.'}
+        return JsonResponse(response_data)
 
 def signup(request):
     if request.method == 'POST':
@@ -33,13 +34,15 @@ def signup(request):
         canteenUser = User.objects.create_user(name,mail,password)
         canteenUser.phone = phone
         canteenUser.save()
-        return redirect('/')
-
+        
+        response_data = {'success': True, 'message': 'User registered successfully!'}
+        return JsonResponse(response_data)
 
     else:
-        return HttpResponse('Not found')   
+        response_data = {'error': True, 'message': 'Signup failed. Please try again.'}
+        return JsonResponse(response_data)
 
-def login(request):
+def loginCanteen(request):
     if request.method == 'POST':
         name = request.POST['name']
         password = request.POST['password']

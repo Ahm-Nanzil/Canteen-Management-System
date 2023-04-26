@@ -1786,8 +1786,10 @@ section {
 
 .modal-content {
   background: linear-gradient(rgba(217, 186, 128, 0.7), rgba(217, 186, 128, 0.7)), /* Light blue with 70% opacity */
-              url("path/to/your/image.jpg") center center no-repeat; /* Your background image */
+  url("{% static 'assets/img/event-custom.jpg' %}") center center no-repeat; /* Your background image */
+  background-size: cover;
 }
+
 
 .signupBG{
   background-color: black;
