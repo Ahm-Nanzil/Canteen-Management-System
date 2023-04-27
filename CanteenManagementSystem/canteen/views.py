@@ -80,3 +80,10 @@ def menu_view(request):
 
     # Render the menu page with the retrieved menu items
     return render(request, 'menu.html', {'menu_items': menu_items})
+def checkout(request):
+    if request.method == 'POST':
+        cart_data = request.POST.get('cart')
+        # Process cart data as needed
+        return JsonResponse({'success': True})
+    else:
+        return JsonResponse({'success': False, 'error': 'Invalid request method'})

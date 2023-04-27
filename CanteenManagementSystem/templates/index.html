@@ -38,6 +38,8 @@
 </head>
 {% comment %} manual add for cart.js {% endcomment %}
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/js-cookie/2.2.1/js.cookie.min.js"></script>
+
 
 <body>
 
@@ -95,8 +97,10 @@
         </ul>
         <i class="bi bi-list mobile-nav-toggle"></i>
       </nav><!-- .navbar -->
-      {% comment %} <a href="login" class="book-a-table-btn scrollto d-none d-lg-flex">Cart(<span id="cart">0</span>)</a> {% endcomment %}
-
+      
+      <button type="button" class="book-a-table-btn scrollto d-none d-lg-flex backgroundTrans" data-bs-toggle="modal" data-bs-target="#CartModal">
+        Cart (<span id="cart">0</span>)
+      </button>
 
 
       {% if user.is_authenticated %}
@@ -125,6 +129,34 @@
     </div>
     
   </header><!-- End Header -->
+
+   <!-- Start Cart Modal -->
+   <button type="button" class="book-a-table-btn scrollto d-none d-lg-flex backgroundTrans" data-bs-toggle="modal" data-bs-target="#CartModal">
+    Cart (<span id="cart">0</span>)
+  </button>
+  
+  <div class="modal fade" id="CartModal" tabindex="-1" aria-labelledby="CartModal" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header signupBG">
+          <button type="button" class="book-a-table-btn scrollto d-none d-lg-flex backgroundTrans" data-bs-toggle="modal" data-bs-target="#CartModal">
+            Sign Up
+          </button>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <ul id="cart-list"></ul>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Continue Shopping</button>
+          <button type="button" class="btn btn-primary" id="checkout-btn">Checkout</button>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+  
+  <!-- End Cart Modal -->
   
   <!-- Start Login Modal -->
   <div class="modal fade" id="LoginModal" tabindex="-1" aria-labelledby="LoginModal" aria-hidden="true">
@@ -333,7 +365,7 @@
     <div class="container" data-aos="fade-up">
 
       <div class="section-title">
-        <h2>Cart(<span id="cart">0</span>)</h2>
+        <h2>Menu</span>)</h2>
         
         <p>Check Our Tasty Menu</p>
       </div>
@@ -366,7 +398,8 @@
             {{ product.desc }}
           </div>
           <div class="menu-ingredients">
-            <button class="cart">Click me</button>
+            <button id="{{ product.id }}" class="cart" data-name="{{ product.product_name }}" data-img="{{ product.image }}">add to cart</button>
+
 
           </div>
         </div>
@@ -378,7 +411,9 @@
       </div>
 
     </div>
-  </section><!-- End Menu Section -->
+  </section>
+  
+  <!-- End Menu Section -->
 
   <!-- ======= Specials Section ======= -->
   <section id="specials" class="specials">
