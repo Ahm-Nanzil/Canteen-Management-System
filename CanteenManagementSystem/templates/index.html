@@ -78,7 +78,7 @@
         <ul>
           <li><a class="nav-link scrollto active" href="#hero">Home</a></li>
           <li><a class="nav-link scrollto" href="#about">About</a></li>
-          <li><a class="nav-link scrollto" href="#menu">Menu</a></li>
+          <li><a class="nav-link scrollto" href="{% url 'menu' %}#menu">Menu</a></li>
           <li><a class="nav-link scrollto" href= "#specials">Specials</a></li>
           
           <li><a class="nav-link scrollto" href="#gallery">Gallery</a></li>
@@ -325,11 +325,14 @@
 
    
   <!-- ======= Menu Section ======= -->
+  
+
   <section id="menu" class="menu section-bg">
     <div class="container" data-aos="fade-up">
 
       <div class="section-title">
         <h2>Menu</h2>
+        
         <p>Check Our Tasty Menu</p>
       </div>
 
@@ -346,16 +349,20 @@
 
       <div class="row menu-container" data-aos="fade-up" data-aos-delay="200">
 
+        {% for product in product_list %}
+          <h2></h2>
+      
         <div class="col-lg-6 menu-item filter-starters">
           <img src="{% static "assets/img/menu/lobster-bisque.jpg" %}" class="menu-img" alt="">
           <div class="menu-content">
-            <a href="#">Lobster Bisque</a><span>$5.95</span>
+
+            <a href="#">{{ product.product_name }}</a><span>{{ product.price }}</span>
           </div>
           <div class="menu-ingredients">
-            Lorem, deren, trataro, filede, nerada
+            {{ product.desc }}
           </div>
         </div>
-
+        {% endfor %}
         <div class="col-lg-6 menu-item filter-specialty">
           <img src="{% static "assets/img/menu/bread-barrel.jpg" %}" class="menu-img" alt="">
           <div class="menu-content">

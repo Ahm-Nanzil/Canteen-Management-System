@@ -4,10 +4,16 @@ from canteen.models import Contact_Message
 from django.contrib.auth.models import User
 from django.contrib.auth import authenticate, login, logout
 from django.http import JsonResponse
+from . models import Product
 
 # Create your views here.
 def index(request):
-    return render(request, "index.html")
+    products= Product.objects.all()
+    n= len(products)
+    
+    params={'product_list': products}
+    return render(request,"index.html",params)
+    
 
 def contact(request):
     if request.method == 'POST':
@@ -64,3 +70,13 @@ def loginCanteen(request):
 def logoutCanteen(request):
     logout(request)
     return redirect('/')
+
+
+
+def menu_view(request):
+    print("The URL '/menu/' has been accessed!")
+    menu_items = Product.objects.all()
+    print(menu_items)
+
+    # Render the menu page with the retrieved menu items
+    return render(request, 'menu.html', {'menu_items': menu_items})
