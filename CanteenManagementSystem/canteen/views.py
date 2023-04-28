@@ -10,12 +10,26 @@ import json
 
 
 # Create your views here.
+# def index(request):
+#     products= Product.objects.all()
+#     n= len(products)
+#     orders = Order.objects.filter(user=request.user)
+#     if request.user.is_authenticated:
+#         params={'product_list': products, 'order_list':orders} 
+#         return render(request,"index.html",params)
+#     else:
+#         params={'product_list': products} 
+#         return render(request,"index.html",params)
 def index(request):
-    products= Product.objects.all()
-    n= len(products)
-    
-    params={'product_list': products}
-    return render(request,"index.html",params)
+    products = Product.objects.all()
+    n = len(products)
+    if request.user.is_authenticated:
+        orders = Order.objects.filter(user=request.user)
+        params = {'product_list': products, 'order_list': orders} 
+    else:
+        params = {'product_list': products} 
+    return render(request, "index.html", params)
+
     
 
 def contact(request):
@@ -118,6 +132,10 @@ def checkout(request):
             return JsonResponse({'success': False, 'error': 'Invalid request method'})
 
 def profile(request):
+    
+    return render(request,"profile.html")
+
+def userprofile(request):
     
     return render(request,"profile.html")
 

@@ -113,8 +113,13 @@
           {{request.user}}
         </button>
         <ul class="dropdown-menu profileUser">
-          <li><a class="dropdown-item" href="/profile">Profile</a></li>
+          <li><button type="button" class="dropdown-item" data-bs-toggle="modal" data-bs-target="#ProfileModal">
+          Profile
+          </button></li>
           <li><a class="dropdown-item" href="/logout">Logout</a></li>
+          <li><a class="dropdown-item" href="userprofile">Userprofile</a></li>
+          
+
         </ul>
       </div>
                      
@@ -269,6 +274,128 @@
 </div>
      
 <!-- End SignUpModal -->
+
+ <!-- Start Profile Modal -->
+ {% if user.is_authenticated %}
+  <div class="modal fade" id="ProfileModal" tabindex="-1" aria-labelledby="ProfileModal" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header signupBG">
+          <button type="button" class="book-a-table-btn scrollto d-none d-lg-flex backgroundTrans" data-bs-toggle="modal" data-bs-target="#SignUpModal">
+            Sign Up
+          </button>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-profile-body">
+
+          
+
+  <table>
+  <thead>
+   
+  </thead>
+  <tbody>
+    <tr>
+      <td>Username</td>
+      <td>{{ user.username }}</td>
+    </tr>
+    <tr>
+      <td>First name</td>
+      <td>{{ user.first_name }}</td>
+    </tr>
+    <tr>
+      <td>Last name</td>
+      <td>{{ user.last_name }}</td>
+    </tr>
+    <tr>
+      <td>Email</td>
+      <td>{{ user.email }}</td>
+    </tr>
+    <tr>
+      <td>Is staff</td>
+      <td>{{ user.is_staff }}</td>
+    </tr>
+    <tr>
+      <td>Is active</td>
+      <td>{{ user.is_active }}</td>
+    </tr>
+    <tr>
+      <td>Date joined</td>
+      <td>{{ user.date_joined }}</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+           
+        <div class="modal-footer">
+          <button type="button" class="book-a-table-btn scrollto d-none d-lg-flex backgroundTrans" data-bs-toggle="modal" data-bs-target="#OrderModal">
+            See your Orders
+          </button>
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+          
+          </form>
+      
+        </div>
+      </div>
+    </div>
+  </div>
+    
+  <!-- End profile Modal -->
+
+
+ <!-- Start OrderModal -->
+ <div class="modal fade" id="OrderModal" tabindex="-1" aria-labelledby="OrderModal" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header signupBG">
+        <button type="button" class="book-a-table-btn scrollto d-none d-lg-flex backgroundTrans" data-bs-toggle="modal" data-bs-target="#LoginModal">
+          Sign In
+        </button>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <h1>Your Orders</h1>
+  {% if order_list %}
+    <table>
+      <thead>
+        <tr>
+          <th>Product</th>
+          <th>Quantity</th>
+          <th>Total Price</th>
+          <th>Address</th>
+          <th>Order Date</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for order in order_list %}
+          <tr>
+            <td>{{ order.product }}</td>
+            <td>{{ order.quantity }}</td>
+            <td>{{ order.total_price }}</td>
+            <td>{{ order.address }}</td>
+            <td>{{ order.order_date }}</td>
+          </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  {% else %}
+    <p>You haven't placed any orders yet.</p>
+  {% endif %}
+        </div>
+      <div class="modal-footer">
+        
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+        <div class=""><button type="submit" class="btn btn-primary">Sign Up</button></div>
+        </form>
+    
+      </div>
+    </div>
+  </div>
+</div>
+     
+<!-- End OrderModal -->
+{% endif %} 
+
   <!-- ======= Hero Section ======= -->
   <section id="hero" class="d-flex align-items-center">
     <div class="container position-relative text-center text-lg-start" data-aos="zoom-in" data-aos-delay="100">
