@@ -1,0 +1,276 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta content="width=device-width, initial-scale=1.0" name="viewport">
+
+  <title>Canteen</title>
+  <meta content="" name="description">
+  <meta content="" name="keywords">
+
+  <!-- Favicons -->
+  <link href="{% static "assets/img/favicon.avif" %}" rel="icon">
+  <link href="{% static "assets/img/apple-touch-icon.png" %}" rel="apple-touch-icon">
+
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i|Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500;1,600;1,700|Poppins:300,300i,400,400i,500,500i,600,600i,700,700i" rel="stylesheet">
+
+  <!-- Vendor CSS Files -->
+  <link href="{% static "assets/vendor/animate.css/animate.min.css" %}" rel="stylesheet">
+  <link href="{% static "assets/vendor/aos/aos.css" rel="stylesheet" %}">
+  <link href="{% static "assets/vendor/bootstrap/css/bootstrap.min.css" %}" rel="stylesheet">
+  <link href="{% static "assets/vendor/bootstrap-icons/bootstrap-icons.css" %}" rel="stylesheet">
+  <link href="{% static "assets/vendor/boxicons/css/boxicons.min.css" %}" rel="stylesheet">
+  <link href="{% static "assets/vendor/glightbox/css/glightbox.min.css" %}" rel="stylesheet">
+  <link href="{% static "assets/vendor/swiper/swiper-bundle.min.css" %}" rel="stylesheet">
+
+  <!-- Template Main CSS File -->
+  <link href="{% static "assets/css/style.css" %}" rel="stylesheet">
+
+  <!-- =======================================================
+  * Template Name: canteenly - v3.10.0
+  * Template URL: https://bootstrapmade.com/canteenly-canteen-template/
+  * Author: BootstrapMade.com
+  * License: https://bootstrapmade.com/license/
+  ======================================================== -->
+</head>
+{% comment %} manual add for cart.js {% endcomment %}
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/js-cookie/2.2.1/js.cookie.min.js"></script>
+
+
+<body>
+
+  <!-- ======= Top Bar ======= -->
+  <div id="topbar" class="d-flex align-items-center fixed-top">
+    <div class="container d-flex justify-content-center justify-content-md-between">
+
+      <div class="contact-info d-flex align-items-center">
+        <i class="bi bi-phone d-flex align-items-center"><span>01879378377</span></i>
+        <i class="bi bi-clock d-flex align-items-center ms-4"><span> Thr-Sat: 8AM - 8PM</span></i>
+      </div>
+
+      {% for message in messages %}
+  <div class="alert alert-{{message.tags}} alert-dismissible fade show" role="alert">
+    <strong>Message: </strong> {{message}}
+    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+  </div>
+{% endfor %}
+
+      <div class="languages d-none d-md-flex align-items-center">
+        <ul>
+          <li>En</li>
+          <li><a href="#">Bn</a></li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <!-- ======= Header ======= -->
+  <header id="header" class="fixed-top d-flex align-items-cente">
+    <div class="container-fluid container-xl d-flex align-items-center justify-content-lg-between">
+      
+      
+
+      <h1 class="logo me-auto me-lg-0"><a href="index.html">Canteen</a></h1>
+      <!-- Uncomment below if you prefer to use an image logo -->
+      <!-- <a href="index.html" class="logo me-auto me-lg-0"><img src="{% static "assets/img/logo.png" alt="" class="img-fluid"></a>-->
+
+      <nav id="navbar" class="navbar order-last order-lg-0">
+        <ul>
+          <li><a class="nav-link scrollto active" href="#hero">Home</a></li>
+          <li><a class="nav-link scrollto" href="#about">About</a></li>
+          <li><a class="nav-link scrollto" href="{% url 'menu' %}#menu">Menu</a></li>
+          <li><a class="nav-link scrollto" href= "#specials">Specials</a></li>
+          
+          <li><a class="nav-link scrollto" href="#gallery">Gallery</a></li>
+          <li class="dropdown"><a href="#"><span>Canteen</span> <i class="bi bi-chevron-down"></i></a>
+            <ul>       
+              <li><a href="#">khan kitchen</a></li>
+              <li><a href="#">Bikrompur</a></li>
+              <li><a href="#">......</a></li>
+            </ul>
+          </li>
+          <li><a class="nav-link scrollto" href="#contact">Contact</a></li>
+        </ul>
+        <i class="bi bi-list mobile-nav-toggle"></i>
+      </nav><!-- .navbar -->
+      
+      <button type="button" class="book-a-table-btn scrollto d-none d-lg-flex backgroundTrans" data-bs-toggle="modal" data-bs-target="#CartModal">
+        {% comment %} <img src="{% static "assets/img/cart.jpg" %}" alt="Cart" class="menu-img"> {% endcomment %}
+        
+        (<span id="cart">0</span>)
+      </button>
+      
+
+
+      {% if user.is_authenticated %}
+      
+      <div class="dropdown backgroundTrans ">
+        <button class="book-a-table-btn scrollto d-none d-lg-flex backgroundTrans" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+          {{request.user}}
+        </button>
+        <ul class="dropdown-menu profileUser">
+          <li><a class="dropdown-item" href="#">Profile</a></li>
+          <li><a class="dropdown-item" href="/logout">Logout</a></li>
+        </ul>
+      </div>
+                     
+            {% else %}
+      <!-- Button trigger Sign In modal -->
+<button type="button" class="book-a-table-btn scrollto d-none d-lg-flex backgroundTrans" data-bs-toggle="modal" data-bs-target="#LoginModal">
+  Sign In
+</button>
+
+{% endif %}
+
+ 
+      
+
+    </div>
+    
+  </header><!-- End Header -->
+
+   <!-- Start Cart Modal -->
+
+  
+  <div class="modal fade" id="CartModal" tabindex="-1" aria-labelledby="CartModal" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header signupBG">
+          <button type="button" class="book-a-table-btn scrollto d-none d-lg-flex backgroundTrans" data-bs-toggle="modal" data-bs-target="#CartModal">
+            Sign Up
+          </button>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <div id="response-message"></div>
+          <ul id="cart-list"></ul>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Continue Shopping</button>
+          {% if user.is_authenticated %}
+          <button type="button" class="btn btn-primary" id="checkout-btn">Checkout</button>
+          {% else %}
+          <button type="button" class="book-a-table-btn scrollto d-none d-lg-flex backgroundTrans" data-bs-toggle="modal" data-bs-target="#LoginModal">
+            Sign In
+          </button>
+          {% endif %}
+        </div>
+      </div>
+    </div>
+  </div>
+  
+  
+  <!-- End Cart Modal -->
+  
+  <!-- Start Login Modal -->
+  <div class="modal fade" id="LoginModal" tabindex="-1" aria-labelledby="LoginModal" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header signupBG">
+          <button type="button" class="book-a-table-btn scrollto d-none d-lg-flex backgroundTrans" data-bs-toggle="modal" data-bs-target="#SignUpModal">
+            Sign Up
+          </button>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+  
+          {% comment %} Login form {% endcomment %}
+          <form action="/login" method="post" role="form" class="django-email-form" data-aos="fade-up" data-aos-delay="100">
+            {% csrf_token %}
+            <div class="row">
+              <div class="">
+                <input type="text" name="name" class="" id="name" placeholder="Your Name" data-rule="minlen:4" data-msg="Please enter at least 4 chars">
+                <div class=""></div>
+              </div>
+              <div class="">
+                <input type="text" class="" name="password" id="password" placeholder="Your password" data-rule="minlen:4" data-msg="Please enter at least 4 chars">
+                <div class=""></div>
+              </div>
+            </div>
+
+            
+           
+            <div class="mb-3">
+              <div class="loading">Loading</div>
+              <div class="error-message"></div>
+              <div class="sent-message">Your booking request was sent. We will call back or send an Email to confirm your reservation. Thank you!</div>
+            </div>
+            
+  
+        </div>
+        <div class="modal-footer">
+          
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+          <div class=""><button type="submit" class="btn btn-primary">Login</button></div>
+          </form>
+      
+        </div>
+      </div>
+    </div>
+  </div>
+       
+  <!-- End Login Modal -->
+
+  <!-- SignUpModal -->
+<div class="modal fade" id="SignUpModal" tabindex="-1" aria-labelledby="SignUpModal" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header signupBG">
+        <button type="button" class="book-a-table-btn scrollto d-none d-lg-flex backgroundTrans" data-bs-toggle="modal" data-bs-target="#LoginModal">
+          Sign In
+        </button>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+
+        {% comment %} SignUp form {% endcomment %}
+        <form id="signup-form" action="/signup" method="post" role="form" class="" data-aos="fade-up" data-aos-delay="100">
+          {% csrf_token %}
+          <div class="row">
+            <div class="">
+              <input type="text" name="name" class="" id="name" placeholder="Your Name" data-rule="minlen:4" data-msg="Please enter at least 4 chars">
+              <div class=""></div>
+            </div>
+            <div class="">
+              <input type="email" class="" name="mail" id="email" placeholder="Your Email" data-rule="email" data-msg="Please enter a valid email">
+              <div class=""></div>
+            </div>
+            <div class="">
+              <input type="text" class="" name="phone" id="phone" placeholder="Your Phone" data-rule="minlen:4" data-msg="Please enter at least 4 chars">
+              
+              <div class=""></div>
+            </div>
+            <div class="">
+              <input type="password" class="" name="password" id="password" placeholder="Write your password" data-rule="minlen:4" data-msg="Please enter at least 4 chars">
+              
+              <div class=""></div>
+            </div>
+          </div>
+         
+          <div class="mb-3">
+            <div id="response-message"></div>
+          </div>
+          
+
+      </div>
+      <div class="modal-footer">
+        
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+        <div class=""><button type="submit" class="btn btn-primary">Sign Up</button></div>
+        </form>
+    
+      </div>
+    </div>
+  </div>
+</div>
+     
+<!-- End SignUpModal -->
+
+
+</body>
+
+</html>

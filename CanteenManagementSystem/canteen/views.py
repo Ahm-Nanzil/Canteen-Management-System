@@ -5,6 +5,9 @@ from django.contrib.auth.models import User
 from django.contrib.auth import authenticate, login, logout
 from django.http import JsonResponse
 from . models import Product
+from . models import Order
+import json
+
 
 # Create your views here.
 def index(request):
@@ -80,10 +83,42 @@ def menu_view(request):
 
     # Render the menu page with the retrieved menu items
     return render(request, 'menu.html', {'menu_items': menu_items})
+
+
+import datetime
+
+
 def checkout(request):
-    if request.method == 'POST':
-        cart_data = request.POST.get('cart')
-        # Process cart data as needed
-        return JsonResponse({'success': True})
+    if request.user.is_authenticated:
+        if request.method == 'POST':
+            cart_data = request.POST.get('cartData')
+            if cart_data:
+                cart = json.loads(cart_data)
+                user_id = request.user.id
+                user = User.objects.get(pk=user_id)
+                total_price = 0
+                current_time = datetime.datetime.now() # set current date and time
+                for item_id, item in cart.items():
+                    product_id = int(item_id)
+                    product = Product.objects.get(pk=product_id)
+                    product_name = item['name']
+                    product_image = item['image']
+                    quantity = item['quantity']
+                    # address = request.POST.get('address')
+                    address = "Mirpur"
+                    order = Order(user=user, product=product, quantity=quantity, total_price=total_price,address=address, order_date=current_time) # add current_time to order
+                    order.save()
+                return JsonResponse({'success': True})
+            else:
+                return JsonResponse({'success': False, 'error': 'Invalid cart data'})
+        else:
+            return JsonResponse({'success': False, 'error': 'Invalid request method'})
+
     else:
-        return JsonResponse({'success': False, 'error': 'Invalid request method'})
+            return JsonResponse({'success': False, 'error': 'Invalid request method'})
+
+def profile(request):
+    
+    return render(request,"profile.html")
+
+

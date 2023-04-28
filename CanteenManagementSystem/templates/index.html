@@ -82,7 +82,7 @@
         <ul>
           <li><a class="nav-link scrollto active" href="#hero">Home</a></li>
           <li><a class="nav-link scrollto" href="#about">About</a></li>
-          <li><a class="nav-link scrollto" href="{% url 'menu' %}#menu">Menu</a></li>
+          <li><a class="nav-link scrollto" href="#menu">Menu</a></li>
           <li><a class="nav-link scrollto" href= "#specials">Specials</a></li>
           
           <li><a class="nav-link scrollto" href="#gallery">Gallery</a></li>
@@ -99,8 +99,11 @@
       </nav><!-- .navbar -->
       
       <button type="button" class="book-a-table-btn scrollto d-none d-lg-flex backgroundTrans" data-bs-toggle="modal" data-bs-target="#CartModal">
-        Cart (<span id="cart">0</span>)
+        {% comment %} <img src="{% static "assets/img/cart.jpg" %}" alt="Cart" class="menu-img"> {% endcomment %}
+        
+        (<span id="cart">0</span>)
       </button>
+      
 
 
       {% if user.is_authenticated %}
@@ -110,7 +113,7 @@
           {{request.user}}
         </button>
         <ul class="dropdown-menu profileUser">
-          <li><a class="dropdown-item" href="#">Profile</a></li>
+          <li><a class="dropdown-item" href="/profile">Profile</a></li>
           <li><a class="dropdown-item" href="/logout">Logout</a></li>
         </ul>
       </div>
@@ -131,9 +134,7 @@
   </header><!-- End Header -->
 
    <!-- Start Cart Modal -->
-   <button type="button" class="book-a-table-btn scrollto d-none d-lg-flex backgroundTrans" data-bs-toggle="modal" data-bs-target="#CartModal">
-    Cart (<span id="cart">0</span>)
-  </button>
+
   
   <div class="modal fade" id="CartModal" tabindex="-1" aria-labelledby="CartModal" aria-hidden="true">
     <div class="modal-dialog">
@@ -145,11 +146,18 @@
           <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
         </div>
         <div class="modal-body">
+          <div id="response-message"></div>
           <ul id="cart-list"></ul>
         </div>
         <div class="modal-footer">
           <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Continue Shopping</button>
+          {% if user.is_authenticated %}
           <button type="button" class="btn btn-primary" id="checkout-btn">Checkout</button>
+          {% else %}
+          <button type="button" class="book-a-table-btn scrollto d-none d-lg-flex backgroundTrans" data-bs-toggle="modal" data-bs-target="#LoginModal">
+            Sign In
+          </button>
+          {% endif %}
         </div>
       </div>
     </div>
@@ -175,7 +183,7 @@
             {% csrf_token %}
             <div class="row">
               <div class="">
-                <input type="text" name="name" class="form-control" id="name" placeholder="Your Name" data-rule="minlen:4" data-msg="Please enter at least 4 chars">
+                <input type="text" name="name" class="" id="name" placeholder="Your Name" data-rule="minlen:4" data-msg="Please enter at least 4 chars">
                 <div class=""></div>
               </div>
               <div class="">
@@ -397,7 +405,7 @@
           <div class="menu-ingredients">
             {{ product.desc }}
           </div>
-          <div class="menu-ingredients">
+          <div class="menu-ingredients cart-style">
             <button id="{{ product.id }}" class="cart" data-name="{{ product.product_name }}" data-img="{{ product.image }}">add to cart</button>
 
 

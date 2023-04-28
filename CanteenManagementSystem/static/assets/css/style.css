@@ -1785,7 +1785,7 @@ section {
 } */
 
 .modal-content {
-  background: linear-gradient(rgba(217, 186, 128, 0.7), rgba(217, 186, 128, 0.7)), /* Light blue with 70% opacity */
+  background: linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)), Light blue with 70% opacity
   url("{% static 'assets/img/event-custom.jpg' %}") center center no-repeat; /* Your background image */
   background-size: cover;
 }
@@ -1802,4 +1802,8 @@ section {
 .profileUser:hover{
   color: #d9ba85;
   background: transparent;
+}
+.cart-style:hover{
+  color: #d9ba85;
+  text-decoration: none;
 }
