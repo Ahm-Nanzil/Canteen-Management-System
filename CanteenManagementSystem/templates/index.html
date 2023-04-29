@@ -86,13 +86,13 @@
           <li><a class="nav-link scrollto" href= "#specials">Specials</a></li>
           
           <li><a class="nav-link scrollto" href="#gallery">Gallery</a></li>
-          <li class="dropdown"><a href="#"><span>Canteen</span> <i class="bi bi-chevron-down"></i></a>
+          {% comment %} <li class="dropdown"><a href="#"><span>Canteen</span> <i class="bi bi-chevron-down"></i></a>
             <ul>       
               <li><a href="#">khan kitchen</a></li>
               <li><a href="#">Bikrompur</a></li>
               <li><a href="#">......</a></li>
             </ul>
-          </li>
+          </li> {% endcomment %}
           <li><a class="nav-link scrollto" href="#contact">Contact</a></li>
         </ul>
         <i class="bi bi-list mobile-nav-toggle"></i>
@@ -101,7 +101,7 @@
       <button type="button" class="book-a-table-btn scrollto d-none d-lg-flex backgroundTrans" data-bs-toggle="modal" data-bs-target="#CartModal">
         {% comment %} <img src="{% static "assets/img/cart.jpg" %}" alt="Cart" class="menu-img"> {% endcomment %}
         
-        (<span id="cart">0</span>)
+        Cart (<span id="cart">0</span>)
       </button>
       
 
@@ -117,7 +117,7 @@
           Profile
           </button></li>
           <li><a class="dropdown-item" href="/logout">Logout</a></li>
-          <li><a class="dropdown-item" href="userprofile">Userprofile</a></li>
+          
           
 
         </ul>
@@ -327,13 +327,12 @@
 </table>
 </div>
            
-        <div class="modal-footer">
+        <div class="modal-footer d-flex justify-content-center">
           <button type="button" class="book-a-table-btn scrollto d-none d-lg-flex backgroundTrans" data-bs-toggle="modal" data-bs-target="#OrderModal">
             See your Orders
           </button>
-          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-          
-          </form>
+          {% comment %} <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button> {% endcomment %}
+        
       
         </div>
       </div>
@@ -349,9 +348,9 @@
     <div class="modal-content">
       <div class="modal-header signupBG">
         <button type="button" class="book-a-table-btn scrollto d-none d-lg-flex backgroundTrans" data-bs-toggle="modal" data-bs-target="#LoginModal">
-          Sign In
+          Orders
         </button>
-        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        <button type="button" class="btn-close book-a-table-btn scrollto d-none d-lg-flex backgroundTrans" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
       <div class="modal-body">
         <h1>Your Orders</h1>
@@ -382,11 +381,11 @@
     <p>You haven't placed any orders yet.</p>
   {% endif %}
         </div>
-      <div class="modal-footer">
+      <div class="modal-footer d-flex justify-content-center">
         
-        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-        <div class=""><button type="submit" class="btn btn-primary">Sign Up</button></div>
-        </form>
+        <button type="button" class="book-a-table-btn scrollto d-none d-lg-flex backgroundTrans" data-bs-toggle="modal" data-bs-target="#ProfileModal">
+          Go Back
+        </button>
     
       </div>
     </div>
@@ -744,6 +743,86 @@
    
   </div>
 
+  <!-- ======= Footer ======= -->
+  <footer id="footer">
+    <div class="footer-top">
+      <div class="container">
+        <div class="row">
+
+          <div class="col-lg-3 col-md-6">
+            <div class="footer-info">
+              <h3>canteenly</h3>
+              <p>
+                Vatara, NatunBazar <br>
+                Dhaka, Bangladesh.<br><br>
+                <strong>Phone:</strong> +1 5589 55488 55<br>
+                <strong>Email:</strong> uiu@canteen.com<br>
+              </p>
+              <div class="social-links mt-3">
+                <a href="#" class="twitter"><i class="bx bxl-twitter"></i></a>
+                <a href="#" class="facebook"><i class="bx bxl-facebook"></i></a>
+                <a href="#" class="instagram"><i class="bx bxl-instagram"></i></a>
+                <a href="#" class="google-plus"><i class="bx bxl-skype"></i></a>
+                <a href="#" class="linkedin"><i class="bx bxl-linkedin"></i></a>
+              </div>
+            </div>
+          </div>
+
+          <div class="col-lg-2 col-md-6 footer-links">
+            <h4>Useful Links</h4>
+            <ul>
+              <li><i class="bx bx-chevron-right"></i> <a href="#">Home</a></li>
+              <li><i class="bx bx-chevron-right"></i> <a href="#">About us</a></li>
+              <li><i class="bx bx-chevron-right"></i> <a href="#">Services</a></li>
+              <li><i class="bx bx-chevron-right"></i> <a href="#">Terms of service</a></li>
+              <li><i class="bx bx-chevron-right"></i> <a href="#">Privacy policy</a></li>
+            </ul>
+          </div>
+
+          <div class="col-lg-3 col-md-6 footer-links">
+            <h4>Our Services</h4>
+            <ul>
+              <li><i class="bx bx-chevron-right"></i> <a href="#">Deliver Food</a></li>
+              <li><i class="bx bx-chevron-right"></i> <a href="#">Quality Checking</a></li>
+              <li><i class="bx bx-chevron-right"></i> <a href="#">Product Management</a></li>
+              <li><i class="bx bx-chevron-right"></i> <a href="#">Marketing</a></li>
+              <li><i class="bx bx-chevron-right"></i> <a href="#">Customer Happiness</a></li>
+            </ul>
+          </div>
+
+          <div class="col-lg-4 col-md-6 footer-newsletter">
+            <h4>Our Newsletter</h4>
+            <p>If you want to get update offer instantly..</p>
+            <form id="subscriber" action="/subscribe" method="post">
+              {% csrf_token %}
+              <input type="email" name="email"><input type="submit" value="Subscribe">
+              <div class="mb-3">
+                <div id="response-message-subscriber"></div>
+              </div>
+            </form>
+            
+
+          </div>
+
+        </div>
+      </div>
+    </div>
+
+    <div class="container">
+      <div class="copyright">
+         Welcome to <strong><span>canteenly</span></strong>. Give us order to serve you.
+      </div>
+      <div class="credits">
+        <!-- All the links in the footer should remain intact. -->
+        <!-- You can delete the links only if you purchased the pro version. -->
+        <!-- Licensing information: https://bootstrapmade.com/license/ -->
+        <!-- Purchase the pro version with working PHP/AJAX contact form: https://bootstrapmade.com/canteenly-canteen-template/ -->
+         <a href="">Thank You</a>
+      </div>
+    </div>
+  </footer><!-- End Footer -->
+
+
   <div id="preloader"></div>
   <a href="#" class="back-to-top d-flex align-items-center justify-content-center"><i class="bi bi-arrow-up-short"></i></a>
 
@@ -756,6 +835,7 @@
   <script src="{% static "assets/vendor/verify/user_validate.js" %}"></script>
   <script src="{% static "assets/vendor/verify/message_validate.js" %}"></script>
   <script src="{% static "assets/vendor/verify/cart.js" %}"></script>
+  <script src="{% static "assets/vendor/verify/subscriber.js" %}"></script>
 
   <!-- Template Main JS File -->
   <script src="{% static "assets/js/main.js" %}"></script>

@@ -1835,3 +1835,7 @@ th {
   background: #0c0b09;
   color: #fff;
 }
+.btn-close {
+  color: #fff !important;
+}
+

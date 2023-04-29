@@ -6,7 +6,7 @@ const formMsg = document.getElementById('msg-verify');
     
     const data = new FormData(formMsg); // create a new FormData object with the form data
     console.log(data);
-    fetch('/contact', { // replace '/contact' with the URL of your Django view
+    fetch('/subscribe', { // replace '/contact' with the URL of your Django view
       method: 'POST',
       body: data
     })

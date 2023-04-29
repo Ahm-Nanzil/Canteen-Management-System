@@ -44,3 +44,8 @@ class Order(models.Model):
     total_price = models.DecimalField(max_digits=10, decimal_places=2)
     address = models.CharField(max_length=200)
     order_date = models.DateField()
+
+class Subscriber(models.Model):
+    C_Id    = models.AutoField(primary_key=True)
+    mail    = models.CharField(max_length=30)
+    subscribe_date = models.DateField()

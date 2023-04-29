@@ -6,7 +6,9 @@ from django.contrib.auth import authenticate, login, logout
 from django.http import JsonResponse
 from . models import Product
 from . models import Order
+from . models import Subscriber
 import json
+import datetime
 
 
 # Create your views here.
@@ -115,11 +117,13 @@ def checkout(request):
                 for item_id, item in cart.items():
                     product_id = int(item_id)
                     product = Product.objects.get(pk=product_id)
+                    product_price = product.price
                     product_name = item['name']
                     product_image = item['image']
                     quantity = item['quantity']
                     # address = request.POST.get('address')
                     address = "Mirpur"
+                    total_price =product_price * quantity
                     order = Order(user=user, product=product, quantity=quantity, total_price=total_price,address=address, order_date=current_time) # add current_time to order
                     order.save()
                 return JsonResponse({'success': True})
@@ -140,3 +144,17 @@ def userprofile(request):
     return render(request,"profile.html")
 
 
+def subscribe(request):
+    if request.method == 'POST':
+        # messages.success(request, "Message sent Sucessfully")
+        
+        mail = request.POST['email']
+        current_time = datetime.datetime.now()
+        new_subscriber=Subscriber(mail=mail,subscribe_date=current_time)
+        
+        new_subscriber.save()
+        response_data = {'success': True, 'message': 'Your message has been sent. Thank you!'}
+        return JsonResponse(response_data)
+    else:
+        response_data = {'error': True, 'message': 'Message sent fail.'}
+        return JsonResponse(response_data)
