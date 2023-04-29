@@ -143,18 +143,26 @@ def userprofile(request):
     
     return render(request,"profile.html")
 
+from django.core.exceptions import ObjectDoesNotExist
+
+from django.core.exceptions import ObjectDoesNotExist
 
 def subscribe(request):
     if request.method == 'POST':
-        # messages.success(request, "Message sent Sucessfully")
-        
         mail = request.POST['email']
         current_time = datetime.datetime.now()
-        new_subscriber=Subscriber(mail=mail,subscribe_date=current_time)
-        
-        new_subscriber.save()
-        response_data = {'success': True, 'message': 'Your message has been sent. Thank you!'}
+
+        # Check if email is already subscribed
+        try:
+            Subscriber.objects.get(mail=mail)
+            response_data = {'error': True, 'message': 'This email is already subscribed.'}
+        except ObjectDoesNotExist:
+            # Email is not subscribed, create new subscriber
+            new_subscriber = Subscriber(mail=mail, subscribe_date=current_time)
+            new_subscriber.save()
+            response_data = {'success': True, 'message': 'You are now subscribed member. Thank you!'}
+
         return JsonResponse(response_data)
     else:
-        response_data = {'error': True, 'message': 'Message sent fail.'}
+        response_data = {'error': True, 'message': 'Subcription failed.'}
         return JsonResponse(response_data)

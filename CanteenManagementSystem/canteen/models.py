@@ -47,5 +47,9 @@ class Order(models.Model):
 
 class Subscriber(models.Model):
     C_Id    = models.AutoField(primary_key=True)
-    mail    = models.CharField(max_length=30)
+    mail = models.CharField(max_length=30, unique=True)
     subscribe_date = models.DateField()
+
+    def __str__(self):
+        
+        return self.mail

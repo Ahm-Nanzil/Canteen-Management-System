@@ -18,6 +18,6 @@ const subscriberForm = document.getElementById('subscriber');
           }
         })
         .catch(error => {
-          responseMessageFromSubscribeView.innerText = 'An error occurred. Please try again.';
+          responseMessageFromSubscribeView.innerText =  data.message;
         });
     });
